@@ -18,7 +18,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'rest_framework',                   # DRF
     'app',                              # заменить на имя вашего приложения
 ]
@@ -115,6 +114,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Логирование (удобно в Docker)
 LOGLEVEL = os.getenv('DJANGO_LOGLEVEL', 'info')
+
+LOGIN_URL = "login" # имя URL из django.contrib.auth.urls
+LOGIN_REDIRECT_URL = "/" # куда вести после успешного входа
+LOGOUT_REDIRECT_URL = "/" # куда вести после выхода
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,

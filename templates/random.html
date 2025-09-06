@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+{% if quote %}
+
+<article id="quote-{{ quote.id }}"> <p>{{ quote.text }}</p> <small>Источник: {{ quote.source.name }} ({{ quote.source.kind }})</small>
+text
+<div style="margin: 8px 0">
+  <button
+    hx-post="{% url 'quote_like' quote.id %}"
+    hx-target="#quote-{{ quote.id }}-votes"
+    hx-swap="outerHTML">👍 Like</button>
+  <button
+    hx-post="{% url 'quote_dislike' quote.id %}"
+    hx-target="#quote-{{ quote.id }}-votes"
+    hx-swap="outerHTML">👎 Dislike</button>
+  <span id="quote-{{ quote.id }}-votes">
+    {% include "partials/quote_votes.html" with likes=likes dislikes=dislikes quote=quote %}
+  </span>
+</div>
+
+<div
+  hx-post="{% url 'quote_view' quote.id %}"
+  hx-trigger="load delay:200ms"
+  hx-target="#quote-{{ quote.id }}-views"
+  hx-swap="outerHTML">
+  <span id="quote-{{ quote.id }}-views">
+    {% include "partials/quote_views.html" with quote=quote %}
+  </span>
+</div>
+</article> {% else %} <p>Пока нет цитат.</p> {% endif %}
+{% endblock %}
