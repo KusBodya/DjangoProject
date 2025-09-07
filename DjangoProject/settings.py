@@ -1,15 +1,13 @@
 import os
 from pathlib import Path
 
-
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'dev-secret')
 DEBUG = os.getenv('DJANGO_DEBUG', '0') == '1'
 
-ALLOWED_HOSTS = [h for h in os.getenv('DJANGO_ALLOWED_HOSTS', '127.0.0.1,localhost').split(',') if h]
-
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '.onrender.com,localhost,127.0.0.1').split(',')
+CSRF_TRUSTED_ORIGINS = [os.getenv('DJANGO_CSRF_ORIGINS', 'https://*.onrender.com')]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -24,6 +22,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -51,7 +50,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'DjangoProject.wsgi.application'
 ASGI_APPLICATION = 'DjangoProject.asgi.application'
-
 
 SQL_ENGINE = os.getenv('SQL_ENGINE', 'django.db.backends.sqlite3')
 if SQL_ENGINE == 'django.db.backends.sqlite3':
@@ -84,7 +82,6 @@ REST_FRAMEWORK = {
     ],
 }
 
-
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -100,10 +97,10 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static'] if (BASE_DIR / 'static').exists() else []
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -112,6 +109,7 @@ LOGLEVEL = os.getenv('DJANGO_LOGLEVEL', 'info')
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
