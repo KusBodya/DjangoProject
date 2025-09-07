@@ -16,3 +16,6 @@ COPY . /app/
 EXPOSE 8000
 
 CMD ["sh", "-c", "python manage.py runserver 0.0.0.0:8000"]
+
+RUN python manage.py migrate
+RUN echo "from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser('логин', 'почта', 'пароль')" | python manage.py shell
