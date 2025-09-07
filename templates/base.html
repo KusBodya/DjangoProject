@@ -13,6 +13,9 @@
       <nav>
         <a href="/">Главная</a> |
         <a href="{% url 'random_quote' %}">Случайная</a> |
+        <a href="{% url 'liked_quotes' %}">Понравилось</a> |
+        <a href="{% url 'disliked_quotes' %}">Не понравилось</a> |
+        <a href="{% url 'unvoted_quotes' %}">Не голосовал</a> |
         <a href="/admin/">Admin</a>
         {% if request.user.is_authenticated %}
           |

@@ -1,4 +1,3 @@
-# app/urls.py
 from django.urls import path
 from . import views
 
@@ -9,5 +8,7 @@ urlpatterns = [
     path("quotes/<int:pk>/dislike/", views.quote_dislike, name="quote_dislike"),
     path("quotes/<int:pk>/views/", views.quote_view, name="quote_view"),
     path("liked/", views.liked_quotes, name="liked_quotes"),
+    path("disliked/", views.disliked_quotes, name="disliked_quotes"),
     path("unvoted/", views.unvoted_quotes, name="unvoted_quotes"),
+    path("accounts/signup/", views.signup, name="signup"),  # <— добавить
 ]
